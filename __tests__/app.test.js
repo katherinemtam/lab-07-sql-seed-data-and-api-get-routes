@@ -259,6 +259,17 @@ describe('API Routes', () => {
       expect(response.body).toEqual(dug);
     });
 
+    test('DELETE slinky from /api/dogs/:id', async () => {
+      const response = await request.delete(`/api/dogs/${slinky.id}`);
+
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(slinky);
+
+      const getResponse = await request.get('/api/dogs');
+      expect(getResponse.status).toBe(200);
+      expect(getResponse.body).toEqual(expect.arrayContaining([hachiko, dug]));
+    });
+
     describe.skip('seed data tests', () => {
 
     });
