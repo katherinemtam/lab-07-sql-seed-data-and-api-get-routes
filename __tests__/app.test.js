@@ -240,6 +240,18 @@ describe('API Routes', () => {
       expect(response.body).toEqual(hachiko);
     });
 
+    test('GET list of dogs from /api/dogs', async () => {
+      const r1 = await request.post('/api/dogs').send(slinky);
+      slinky = r1.body;
+      const r2 = await request.post('/api/dogs/').send(dug);
+      dug = r2.body;
+
+      const response = await request.get('/api/dogs');
+
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(expect.arrayContaining([hachiko, slinky, dug]));
+    });
+
     describe.skip('seed data tests', () => {
 
     });
