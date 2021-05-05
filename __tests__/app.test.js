@@ -229,6 +229,17 @@ describe('API Routes', () => {
       hachiko = response.body;
     });
 
+    test('PUT updated hachiko to /api/dogs/:id', async () => {
+      hachiko.name = 'Hachi';
+
+      const response = await request
+        .put(`/api/dogs/${hachiko.id}`)
+        .send(hachiko);
+
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(hachiko);
+    });
+
     describe.skip('seed data tests', () => {
 
     });
