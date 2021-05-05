@@ -224,6 +224,9 @@ describe('API Routes', () => {
 
       expect(response.status).toBe(200);
       expect(response.body).toEqual(hachiko);
+
+      //Update local client hachiko object
+      hachiko = response.body;
     });
 
     describe.skip('seed data tests', () => {
