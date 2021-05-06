@@ -243,7 +243,7 @@ describe('API Routes', () => {
       hachiko = response.body;
     });
 
-    test.skip('PUT updated hachiko to /api/dogs/:id', async () => {
+    test('PUT updated hachiko to /api/dogs/:id', async () => {
       hachiko.name = 'Hachi';
 
       const response = await request
