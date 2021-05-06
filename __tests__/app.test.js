@@ -241,10 +241,10 @@ describe('API Routes', () => {
     });
 
     test('GET list of dogs from /api/dogs', async () => {
-      const r1 = await request.post('/api/dogs').send(slinky);
-      slinky = r1.body;
-      const r2 = await request.post('/api/dogs/').send(dug);
-      dug = r2.body;
+      const aDog = await request.post('/api/dogs').send(slinky);
+      slinky = aDog.body;
+      const anotherDog = await request.post('/api/dogs/').send(dug);
+      dug = anotherDog.body;
 
       const response = await request.get('/api/dogs');
 
