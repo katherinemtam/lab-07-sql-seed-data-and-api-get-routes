@@ -254,16 +254,27 @@ describe('API Routes', () => {
       expect(response.body).toEqual(hachiko);
     });
 
-    test.skip('GET list of dogs from /api/dogs', async () => {
+    test('GET list of dogs from /api/dogs', async () => {
+      slinky.userId = user.id;
       const aDog = await request.post('/api/dogs').send(slinky);
       slinky = aDog.body;
+
+      dug.userId = user.id;
       const anotherDog = await request.post('/api/dogs/').send(dug);
       dug = anotherDog.body;
 
       const response = await request.get('/api/dogs');
 
       expect(response.status).toBe(200);
-      expect(response.body).toEqual(expect.arrayContaining([hachiko, slinky, dug]));
+
+      const expected = [hachiko, slinky, dug].map(dog => {
+        return {
+          userName: user.name,
+          ...dog
+        };
+      });
+
+      expect(response.body).toEqual(expect.arrayContaining(expected));
     });
 
     test.skip('GET dug from /api/dogs/:id', async () => {
