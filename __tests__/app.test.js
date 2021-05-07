@@ -284,7 +284,7 @@ describe('API Routes', () => {
       expect(response.body).toEqual({ ...dug, userName: user.name });
     });
 
-    test.skip('DELETE slinky from /api/dogs/:id', async () => {
+    test('DELETE slinky from /api/dogs/:id', async () => {
       const response = await request.delete(`/api/dogs/${slinky.id}`);
 
       expect(response.status).toBe(200);
@@ -292,7 +292,7 @@ describe('API Routes', () => {
 
       const getResponse = await request.get('/api/dogs');
       expect(getResponse.status).toBe(200);
-      expect(getResponse.body).toEqual(expect.arrayContaining([hachiko, dug]));
+      expect(getResponse.body.find(dog => dog.id === slinky.id)).toBeUndefined();
     });
 
     describe.skip('seed data tests', () => {
