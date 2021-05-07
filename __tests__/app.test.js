@@ -5,7 +5,6 @@ import { execSync } from 'child_process';
 
 const request = supertest(app);
 
-
 describe('API Routes', () => {
 
   afterAll(async () => {
@@ -14,8 +13,22 @@ describe('API Routes', () => {
 
   describe('/api/dogs', () => {
 
-    beforeAll(() => {
+    let user;
+
+    beforeAll(async () => {
       execSync('npm run recreate-tables');
+
+      const response = await request
+        .post('/api/auth/signup')
+        .send({
+          name: 'Me the User',
+          email: 'me@user.com',
+          password: 'password'
+        });
+
+      expect(response.status).toBe(200);
+
+      user = response.body;
     });
 
     const expectedDogs = [
@@ -218,6 +231,7 @@ describe('API Routes', () => {
     };
 
     test('POST hachiko to /api/dogs', async () => {
+      hachiko.userId = user.id;
       const response = await request
         .post('/api/dogs')
         .send(hachiko);
@@ -241,22 +255,33 @@ describe('API Routes', () => {
     });
 
     test('GET list of dogs from /api/dogs', async () => {
-      const r1 = await request.post('/api/dogs').send(slinky);
-      slinky = r1.body;
-      const r2 = await request.post('/api/dogs/').send(dug);
-      dug = r2.body;
+      slinky.userId = user.id;
+      const aDog = await request.post('/api/dogs').send(slinky);
+      slinky = aDog.body;
+
+      dug.userId = user.id;
+      const anotherDog = await request.post('/api/dogs/').send(dug);
+      dug = anotherDog.body;
 
       const response = await request.get('/api/dogs');
 
       expect(response.status).toBe(200);
-      expect(response.body).toEqual(expect.arrayContaining([hachiko, slinky, dug]));
+
+      const expected = [hachiko, slinky, dug].map(dog => {
+        return {
+          userName: user.name,
+          ...dog
+        };
+      });
+
+      expect(response.body).toEqual(expect.arrayContaining(expected));
     });
 
     test('GET dug from /api/dogs/:id', async () => {
       const response = await request.get(`/api/dogs/${dug.id}`);
 
       expect(response.status).toBe(200);
-      expect(response.body).toEqual(dug);
+      expect(response.body).toEqual({ ...dug, userName: user.name });
     });
 
     test('DELETE slinky from /api/dogs/:id', async () => {
@@ -267,7 +292,7 @@ describe('API Routes', () => {
 
       const getResponse = await request.get('/api/dogs');
       expect(getResponse.status).toBe(200);
-      expect(getResponse.body).toEqual(expect.arrayContaining([hachiko, dug]));
+      expect(getResponse.body.find(dog => dog.id === slinky.id)).toBeUndefined();
     });
 
     describe('seed data tests', () => {
@@ -293,7 +318,9 @@ describe('API Routes', () => {
           type: expect.any(String),
           media: expect.any(String),
           year: expect.any(Number),
-          isAnimated: expect.any(Boolean)
+          isAnimated: expect.any(Boolean),
+          userId: expect.any(Number),
+          userName: expect.any(String)
         });
       });
     });
