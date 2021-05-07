@@ -277,11 +277,11 @@ describe('API Routes', () => {
       expect(response.body).toEqual(expect.arrayContaining(expected));
     });
 
-    test.skip('GET dug from /api/dogs/:id', async () => {
+    test('GET dug from /api/dogs/:id', async () => {
       const response = await request.get(`/api/dogs/${dug.id}`);
 
       expect(response.status).toBe(200);
-      expect(response.body).toEqual(dug);
+      expect(response.body).toEqual({ ...dug, userName: user.name });
     });
 
     test.skip('DELETE slinky from /api/dogs/:id', async () => {
