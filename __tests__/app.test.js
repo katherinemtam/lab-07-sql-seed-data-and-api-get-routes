@@ -295,13 +295,13 @@ describe('API Routes', () => {
       expect(getResponse.body.find(dog => dog.id === slinky.id)).toBeUndefined();
     });
 
-    describe.skip('seed data tests', () => {
+    describe('seed data tests', () => {
 
       beforeAll(() => {
         execSync('npm run setup-db');
       });
 
-      it.skip('GET /api/dogs', async () => {
+      it('GET /api/dogs', async () => {
         // act - make the request
         const response = await request.get('/api/dogs');
 
@@ -318,7 +318,9 @@ describe('API Routes', () => {
           type: expect.any(String),
           media: expect.any(String),
           year: expect.any(Number),
-          isAnimated: expect.any(Boolean)
+          isAnimated: expect.any(Boolean),
+          userId: expect.any(Number),
+          userName: expect.any(String)
         });
       });
     });
