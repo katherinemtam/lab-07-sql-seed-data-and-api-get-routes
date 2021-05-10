@@ -19,7 +19,7 @@ const dogs = [
   {
     name: 'Rin Tin Tin',
     type: 'German Shepherd',
-    url: '/dogs/rin - tin - tin.png',
+    url: '/dogs/rin-tin-tin.png',
     media: 'The Adventures of Rin Tin Tin',
     year: 1954,
     isAnimated: false
@@ -59,7 +59,7 @@ const dogs = [
   {
     name: 'Pit Bull',
     type: 'Pit Bull',
-    url: '/dogs/pit - bull.jpg',
+    url: '/dogs/pit-bull.jpg',
     media: 'John Wick',
     year: 2014,
     isAnimated: false
