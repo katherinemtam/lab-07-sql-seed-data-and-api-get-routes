@@ -25,9 +25,9 @@ async function run() {
     await Promise.all(
       dogs.map(dog => {
         return client.query(`
-          INSERT INTO dogs (name, type, media, year, is_animated, user_id)
-          VALUES ($1, $2, $3, $4, $5, $6);
-        `, [dog.name, dog.type, dog.media, dog.year, dog.isAnimated, user.id]);
+          INSERT INTO dogs (name, type, url, media, year, is_animated, user_id)
+          VALUES ($1, $2, $3, $4, $5, $6, $7);
+        `, [dog.name, dog.type, dog.url, dog.media, dog.year, dog.isAnimated, user.id]);
       })
     );
 
