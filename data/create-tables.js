@@ -22,6 +22,7 @@ async function run() {
         id SERIAL PRIMARY KEY NOT NULL,
         name VARCHAR(512) NOT NULL,
         type VARCHAR(512) NOT NULL,
+        url VARCHAR(512) NOT NULL,
         media VARCHAR(512) NOT NULL,
         year INTEGER NOT NULL,
         is_animated BOOLEAN DEFAULT FALSE NOT NULL,
